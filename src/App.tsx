@@ -497,73 +497,320 @@ export default function App() {
     });
   };
 
-  return (
-    <div style={{ maxWidth: 680, margin: "40px auto", fontFamily: "Arial" }}>
-      <h2 style={{ textAlign: "center" }}>SDB Customer Support Chat (Demo)</h2>
+  // return (
+  //   <div style={{ maxWidth: 680, margin: "40px auto", fontFamily: "Arial", }}>
+  //     <h2 style={{ textAlign: "center" }}>SDB Customer Support Chat (Demo)</h2>
 
-      <div
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: 8,
-          padding: 12,
-          minHeight: 420,
-          maxHeight: 520,
-          overflowY: "auto",
-          background: "#f9f9f9",
-        }}
-      >
-        {messages.map((m, i) => (
+  //     <div
+  //       style={{
+  //         border: "1px solid #ccc",
+  //         borderRadius: 8,
+  //         padding: 12,
+  //         minHeight: 420,
+  //         maxHeight: 520,
+  //         overflowY: "auto",
+  //         background: "#f9f9f9",
+  //       }}
+  //     >
+  //       {messages.map((m, i) => (
+  //         <div
+  //           key={i}
+  //           style={{
+  //             marginBottom: 10,
+  //             display: "flex",
+  //             justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+  //           }}
+  //         >
+  //           <div
+  //             style={{
+  //               background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
+  //               color: m.role === "user" ? "white" : "black",
+  //               padding: "8px 12px",
+  //               borderRadius: 12,
+  //               maxWidth: "80%",
+  //               whiteSpace: "pre-wrap",
+  //             }}
+  //           >
+  //             {renderContent(m.content)}
+  //             {m.streaming && <span className="cursor">|</span>}
+  //           </div>
+  //         </div>
+  //       ))}
+  //       <div ref={bottomRef} />
+  //     </div>
+
+  //     <input
+  //       value={input}
+  //       disabled={loading}
+  //       onChange={(e) => setInput(e.target.value)}
+  //       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+  //       placeholder="Ask about accounts, cards, loans, or digital banking…"
+  //       style={{
+  //         width: "100%",
+  //         padding: 10,
+  //         marginTop: 10,
+  //         borderRadius: 8,
+  //         border: "1px solid #ccc",
+  //       }}
+  //     />
+
+  //     <style>{`
+  //       .cursor {
+  //         display: inline-block;
+  //         margin-left: 2px;
+  //         animation: blink 1s steps(2, start) infinite;
+  //       }
+  //       @keyframes blink {
+  //         to { visibility: hidden; }
+  //       }
+  //     `}</style>
+  //   </div>
+  // );
+
+// return (
+//   <div
+//     style={{
+//       maxWidth: 680,
+//       margin: "0 auto",
+//       padding: "12px",
+//       fontFamily: "Arial",
+//       height: "100vh",
+//       display: "flex",
+//       flexDirection: "column",
+//     }}
+//   >
+//     <h2
+//       style={{
+//         textAlign: "center",
+//         margin: "8px 0 12px",
+//         fontSize: "clamp(16px, 4vw, 22px)",
+//       }}
+//     >
+//       SDB Customer Support Chat
+//     </h2>
+
+//     <div
+//       style={{
+//         flex: 1,
+//         border: "1px solid #ccc",
+//         borderRadius: 10,
+//         padding: 12,
+//         overflowY: "auto",
+//         background: "#f9f9f9",
+//       }}
+//     >
+//       {messages.map((m, i) => (
+//         <div
+//           key={i}
+//           style={{
+//             marginBottom: 10,
+//             display: "flex",
+//             justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+//           }}
+//         >
+//           <div
+//             style={{
+//               background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
+//               color: m.role === "user" ? "white" : "black",
+//               padding: "10px 14px",
+//               borderRadius: 14,
+//               maxWidth: "85%",
+//               fontSize: "14px",
+//               lineHeight: 1.4,
+//               whiteSpace: "pre-wrap",
+//             }}
+//           >
+//             {renderContent(m.content)}
+//             {m.streaming && <span className="cursor">|</span>}
+//           </div>
+//         </div>
+//       ))}
+//       <div ref={bottomRef} />
+//     </div>
+
+//     <input
+//       value={input}
+//       disabled={loading}
+//       onChange={(e) => setInput(e.target.value)}
+//       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+//       placeholder="Ask about accounts, cards, loans, or digital banking…"
+//       style={{
+//         width: "100%",
+//         padding: "14px",
+//         marginTop: 10,
+//         borderRadius: 12,
+//         border: "1px solid #ccc",
+//         fontSize: "14px", // IMPORTANT for mobile keyboards
+//         boxSizing: "border-box",
+//       }}
+//     />
+
+//     <style>{`
+//       .cursor {
+//         display: inline-block;
+//         margin-left: 2px;
+//         animation: blink 1s steps(2, start) infinite;
+//       }
+//       @keyframes blink {
+//         to { visibility: hidden; }
+//       }
+
+//       /* Small screens */
+//       @media (max-width: 480px) {
+//         h2 {
+//           font-weight: 600;
+//         }
+//       }
+//     `}</style>
+//   </div>
+// );
+
+
+
+return (
+  <div
+    style={{
+      height: "100vh",
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: "Arial",
+      background: "#ffffff",
+    }}
+  >
+    {/* Header */}
+    <div
+      style={{
+        padding: "12px",
+        borderBottom: "1px solid #ddd",
+        textAlign: "center",
+        fontWeight: 600,
+        fontSize: "16px",
+      }}
+    >
+      SDB Customer Support Chat
+    </div>
+
+    {/* Chat area */}
+    <div
+      style={{
+        flex: 1,
+        padding: 12,
+        overflowY: "auto",
+        background: "#f5f5f5",
+      }}
+    >
+      {messages.map((m, i) => (
+        <div
+          key={i}
+          style={{
+            marginBottom: 10,
+            display: "flex",
+            justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+          }}
+        >
           <div
-            key={i}
             style={{
-              marginBottom: 10,
-              display: "flex",
-              justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+              background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
+              color: m.role === "user" ? "white" : "black",
+              padding: "10px 14px",
+              borderRadius: 16,
+              maxWidth: "85%",
+              fontSize: 14,
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
             }}
           >
-            <div
-              style={{
-                background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
-                color: m.role === "user" ? "white" : "black",
-                padding: "8px 12px",
-                borderRadius: 12,
-                maxWidth: "80%",
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              {renderContent(m.content)}
-              {m.streaming && <span className="cursor">|</span>}
-            </div>
-          </div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
+            {renderContent(m.content)}
 
+            {/* Typing indicator */}
+            {m.streaming && (
+              <span className="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            )}
+          </div>
+        </div>
+      ))}
+      <div ref={bottomRef} />
+    </div>
+
+    {/* Input bar (sticky, keyboard-safe) */}
+    <div
+      style={{
+        position: "sticky",
+        bottom: 0,
+        padding: "10px",
+        borderTop: "1px solid #ddd",
+        background: "#fff",
+        display: "flex",
+        gap: 8,
+      }}
+    >
       <input
         value={input}
         disabled={loading}
+        autoFocus
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-        placeholder="Ask about accounts, cards, loans, or digital banking…"
+        placeholder="Type your message…"
         style={{
-          width: "100%",
-          padding: 10,
-          marginTop: 10,
-          borderRadius: 8,
+          flex: 1,
+          padding: "12px 14px",
+          borderRadius: 20,
           border: "1px solid #ccc",
+          fontSize: 16, // prevents iOS zoom
+          outline: "none",
         }}
       />
 
-      <style>{`
-        .cursor {
-          display: inline-block;
-          margin-left: 2px;
-          animation: blink 1s steps(2, start) infinite;
-        }
-        @keyframes blink {
-          to { visibility: hidden; }
-        }
-      `}</style>
+      <button
+        onClick={sendMessage}
+        disabled={loading || !input.trim()}
+        style={{
+          width: 44,
+          height: 44,
+          borderRadius: "50%",
+          border: "none",
+          background: "#1e88e5",
+          color: "white",
+          fontSize: 18,
+          cursor: "pointer",
+          opacity: loading || !input.trim() ? 0.5 : 1,
+        }}
+      >
+        ➤
+      </button>
     </div>
-  );
+
+    {/* Animations */}
+    <style>{`
+      .typing {
+        display: inline-flex;
+        gap: 4px;
+        margin-left: 6px;
+      }
+
+      .typing span {
+        width: 6px;
+        height: 6px;
+        background: #555;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite both;
+      }
+
+      .typing span:nth-child(1) { animation-delay: 0s; }
+      .typing span:nth-child(2) { animation-delay: 0.2s; }
+      .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1); }
+      }
+    `}</style>
+  </div>
+);
+
 }
