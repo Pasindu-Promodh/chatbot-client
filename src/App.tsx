@@ -347,6 +347,8 @@
 //============================ Customer Support Chat Version ============================//
 
 import { useState, useRef, useEffect } from "react";
+import logo from "/logo.jpg";
+
 
 type Stage = "prechat" | "chat";
 
@@ -612,16 +614,40 @@ export default function App() {
     >
       {/* Header */}
       <div
-        style={{
-          padding: "12px",
-          borderBottom: "1px solid #ddd",
-          textAlign: "center",
-          fontWeight: 600,
-          fontSize: "16px",
-        }}
-      >
-        SDB Customer Support Chat
-      </div>
+  style={{
+    display: "flex",
+    alignItems: "center",
+    padding: "12px",
+    borderBottom: "1px solid #ddd",
+    position: "relative",
+  }}
+>
+  {/* Logo */}
+  <img
+    src={logo} // or your imported logo
+    alt="SDB Bank"
+    style={{
+      height: 28,
+      width: "auto",
+    }}
+  />
+
+  {/* Title (perfectly centered) */}
+  <div
+    style={{
+      position: "absolute",
+      left: 0,
+      right: 0,
+      textAlign: "center",
+      fontWeight: 600,
+      fontSize: "16px",
+      pointerEvents: "none", // prevents blocking logo clicks
+    }}
+  >
+    SDB AI Companion
+  </div>
+</div>
+
 
       {/* Chat area */}
       <div
