@@ -344,10 +344,11 @@
 
 // export default App;
 
-
 //============================ Customer Support Chat Version ============================//
 
 import { useState, useRef, useEffect } from "react";
+
+type Stage = "prechat" | "chat";
 
 type Role = "user" | "assistant";
 
@@ -358,32 +359,43 @@ type Message = {
 };
 
 export default function App() {
+  const [stage, setStage] = useState<Stage>("prechat");
+  const [, setLanguage] = useState<"en" | "si" | "ta">("en");
+
+  // const [messages, setMessages] = useState<Message[]>([
+  //   {
+  //     role: "assistant",
+  //     content:
+  //       "Welcome to **SDB Bank** 💼\n\nI’m the SDB virtual assistant. I can help with questions about accounts, cards, loans, digital banking, and branch services.\n\n⚠️ Please don’t share sensitive information like account numbers, PINs, passwords, or OTPs.",
+  //   },
+  // ]);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
       content:
-        "Welcome to **SDB Bank** 💼\n\nI’m the SDB virtual assistant. I can help with questions about accounts, cards, loans, digital banking, and branch services.\n\n⚠️ Please don’t share sensitive information like account numbers, PINs, passwords, or OTPs.",
+        "Welcome to **SDB Bank** 💼\n\nPlease select your preferred language to continue:",
     },
   ]);
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-  const handleResize = () => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+    const handleResize = () => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", handleResize);
-  }
-
-  return () => {
     if (window.visualViewport) {
-      window.visualViewport.removeEventListener("resize", handleResize);
+      window.visualViewport.addEventListener("resize", handleResize);
     }
-  };
-}, []);
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -474,184 +486,118 @@ export default function App() {
     }
   };
 
-  // const renderContent = (content: string) => {
-  //   const lines = content.split("\n");
-  //   return lines.map((line, idx) => {
-  //     const parts = [];
-  //     let lastIndex = 0;
-  //     const regex = /\*\*(.*?)\*\*/g;
-  //     let match;
+  const handleLanguageSelect = (lang: "en" | "si" | "ta") => {
+    setLanguage(lang);
 
-  //     while ((match = regex.exec(line)) !== null) {
-  //       if (match.index > lastIndex) {
-  //         parts.push(line.substring(lastIndex, match.index));
-  //       }
-  //       parts.push(<strong key={`${idx}-${match.index}`}>{match[1]}</strong>);
-  //       lastIndex = match.index + match[0].length;
-  //     }
+    const label = lang === "en" ? "English" : lang === "si" ? "සිංහල" : "தமிழ்";
 
-  //     if (lastIndex < line.length) {
-  //       parts.push(line.substring(lastIndex));
-  //     }
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", content: label },
+      {
+        role: "assistant",
+        content:
+          lang === "en"
+            ? "Great! How can I help you today?"
+            : lang === "si"
+              ? "හොඳයි! ඔබට අද කෙසේ උපකාර කළ හැකිද?"
+              : "நன்று! இன்று நான் உங்களுக்கு எப்படி உதவலாம்?",
+      },
+    ]);
 
-  //     return (
-  //       <span key={idx}>
-  //         {parts.length > 0 ? parts : line}
-  //         {idx < lines.length - 1 && <br />}
-  //       </span>
-  //     );
-  //   });
-  // };
-
-//   const renderContent = (content: string) => {
-//   const lines = content.split("\n");
-
-//   const urlRegex =
-//     /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi;
-
-//   return lines.map((line, idx) => {
-//     const parts: React.ReactNode[] = [];
-//     let lastIndex = 0;
-//     let match;
-
-//     while ((match = urlRegex.exec(line)) !== null) {
-//       if (match.index > lastIndex) {
-//         parts.push(line.slice(lastIndex, match.index));
-//       }
-
-//       const url = match[0];
-//       const href = url.startsWith("http")
-//         ? url
-//         : url.includes("@")
-//         ? `mailto:${url}`
-//         : `https://${url}`;
-
-//       parts.push(
-//         <a
-//           key={`${idx}-${match.index}`}
-//           href={href}
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           style={{
-//             color: "#1565c0",
-//             textDecoration: "underline",
-//             wordBreak: "break-word",
-//           }}
-//         >
-//           {url}
-//         </a>
-//       );
-
-//       lastIndex = match.index + url.length;
-//     }
-
-//     if (lastIndex < line.length) {
-//       parts.push(line.slice(lastIndex));
-//     }
-
-//     return (
-//       <span key={idx}>
-//         {parts}
-//         {idx < lines.length - 1 && <br />}
-//       </span>
-//     );
-//   });
-// };
-
-
-
-const renderContent = (content: string) => {
-  const lines = content.split("\n");
-
-  const urlRegex =
-    /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi;
-
-  const boldRegex = /\*\*(.*?)\*\*/g;
-
-  const renderTextWithLinks = (text: string) => {
-    const nodes: React.ReactNode[] = [];
-    let lastIndex = 0;
-    let match;
-
-    while ((match = urlRegex.exec(text)) !== null) {
-      if (match.index > lastIndex) {
-        nodes.push(text.slice(lastIndex, match.index));
-      }
-
-      const url = match[0];
-      const href = url.startsWith("http")
-        ? url
-        : url.includes("@")
-        ? `mailto:${url}`
-        : `https://${url}`;
-
-      nodes.push(
-        <a
-          key={`${match.index}-${url}`}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: "#1565c0",
-            textDecoration: "underline",
-            wordBreak: "break-word",
-          }}
-        >
-          {url}
-        </a>
-      );
-
-      lastIndex = match.index + url.length;
-    }
-
-    if (lastIndex < text.length) {
-      nodes.push(text.slice(lastIndex));
-    }
-
-    return nodes;
+    setStage("chat");
   };
 
-  return lines.map((line, lineIdx) => {
-    const parts: React.ReactNode[] = [];
-    let lastIndex = 0;
-    let match;
+  const renderContent = (content: string) => {
+    const lines = content.split("\n");
 
-    while ((match = boldRegex.exec(line)) !== null) {
-      if (match.index > lastIndex) {
+    const urlRegex =
+      /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi;
+
+    const boldRegex = /\*\*(.*?)\*\*/g;
+
+    const renderTextWithLinks = (text: string) => {
+      const nodes: React.ReactNode[] = [];
+      let lastIndex = 0;
+      let match;
+
+      while ((match = urlRegex.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+          nodes.push(text.slice(lastIndex, match.index));
+        }
+
+        const url = match[0];
+        const href = url.startsWith("http")
+          ? url
+          : url.includes("@")
+            ? `mailto:${url}`
+            : `https://${url}`;
+
+        nodes.push(
+          <a
+            key={`${match.index}-${url}`}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#1565c0",
+              textDecoration: "underline",
+              wordBreak: "break-word",
+            }}
+          >
+            {url}
+          </a>,
+        );
+
+        lastIndex = match.index + url.length;
+      }
+
+      if (lastIndex < text.length) {
+        nodes.push(text.slice(lastIndex));
+      }
+
+      return nodes;
+    };
+
+    return lines.map((line, lineIdx) => {
+      const parts: React.ReactNode[] = [];
+      let lastIndex = 0;
+      let match;
+
+      while ((match = boldRegex.exec(line)) !== null) {
+        if (match.index > lastIndex) {
+          parts.push(
+            <span key={`text-${lineIdx}-${lastIndex}`}>
+              {renderTextWithLinks(line.slice(lastIndex, match.index))}
+            </span>,
+          );
+        }
+
         parts.push(
-          <span key={`text-${lineIdx}-${lastIndex}`}>
-            {renderTextWithLinks(line.slice(lastIndex, match.index))}
-          </span>
+          <strong key={`bold-${lineIdx}-${match.index}`}>
+            {renderTextWithLinks(match[1])}
+          </strong>,
+        );
+
+        lastIndex = match.index + match[0].length;
+      }
+
+      if (lastIndex < line.length) {
+        parts.push(
+          <span key={`text-${lineIdx}-end`}>
+            {renderTextWithLinks(line.slice(lastIndex))}
+          </span>,
         );
       }
 
-      parts.push(
-        <strong key={`bold-${lineIdx}-${match.index}`}>
-          {renderTextWithLinks(match[1])}
-        </strong>
-      );
-
-      lastIndex = match.index + match[0].length;
-    }
-
-    if (lastIndex < line.length) {
-      parts.push(
-        <span key={`text-${lineIdx}-end`}>
-          {renderTextWithLinks(line.slice(lastIndex))}
+      return (
+        <span key={lineIdx}>
+          {parts}
+          {lineIdx < lines.length - 1 && <br />}
         </span>
       );
-    }
-
-    return (
-      <span key={lineIdx}>
-        {parts}
-        {lineIdx < lines.length - 1 && <br />}
-      </span>
-    );
-  });
-};
-
-
+    });
+  };
 
   return (
     <div
@@ -721,6 +667,32 @@ const renderContent = (content: string) => {
             </div>
           </div>
         ))}
+        {stage === "prechat" && (
+          <div style={{ display: "flex", gap: 8, padding: "8px 0" }}>
+            {[
+              { code: "en", label: "English" },
+              { code: "si", label: "සිංහල" },
+              { code: "ta", label: "தமிழ்" },
+            ].map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => handleLanguageSelect(lang.code as any)}
+                style={{
+                  padding: "10px 14px",
+                  borderRadius: 16,
+                  border: "1px solid #1e88e5",
+                  background: "#fff",
+                  color: "#1e88e5",
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                {lang.label}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div ref={bottomRef} />
       </div>
 
@@ -738,11 +710,15 @@ const renderContent = (content: string) => {
       >
         <input
           value={input}
-          disabled={loading}
+          disabled={loading || stage !== "chat"}
           autoFocus
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder="Type your message…"
+          placeholder={
+            stage === "chat"
+              ? "Type your message…"
+              : "Please select a language above"
+          }
           style={{
             flex: 1,
             padding: "12px 14px",
@@ -755,7 +731,7 @@ const renderContent = (content: string) => {
 
         <button
           onClick={sendMessage}
-          disabled={loading || !input.trim()}
+          disabled={loading || !input.trim() || stage !== "chat"}
           style={{
             width: 44,
             height: 44,
