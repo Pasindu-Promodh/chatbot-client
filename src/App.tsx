@@ -603,7 +603,7 @@ export default function App() {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "100%",
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
@@ -613,43 +613,42 @@ export default function App() {
     >
       {/* Header */}
       <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "auto 1fr auto",
-    alignItems: "center",
-    padding: "12px",
-    borderBottom: "1px solid #ddd",
-    gap: 8,
-  }}
->
-  {/* Left: Logo */}
-  <img
-    src={logo}
-    alt="SDB Bank"
-    style={{
-      height: 26,
-      width: "auto",
-    }}
-  />
+        style={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr auto",
+          alignItems: "center",
+          padding: "12px",
+          borderBottom: "1px solid #ddd",
+          gap: 8,
+        }}
+      >
+        {/* Left: Logo */}
+        <img
+          src={logo}
+          alt="SDB Bank"
+          style={{
+            height: 26,
+            width: "auto",
+          }}
+        />
 
-  {/* Center: Title */}
-  <div
-    style={{
-      textAlign: "center",
-      fontWeight: 600,
-      fontSize: "16px",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    }}
-  >
-    SDB AI Companion
-  </div>
+        {/* Center: Title */}
+        <div
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontSize: "16px",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          SDB AI Companion
+        </div>
 
-  {/* Right spacer (keeps title centered) */}
-  <div style={{ width: 26 }} />
-</div>
-
+        {/* Right spacer (keeps title centered) */}
+        <div style={{ width: 26 }} />
+      </div>
 
       {/* Chat area */}
       <div
