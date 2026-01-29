@@ -349,7 +349,6 @@
 import { useState, useRef, useEffect } from "react";
 import logo from "/logo.jpg";
 
-
 type Stage = "prechat" | "chat";
 
 type Role = "user" | "assistant";
@@ -615,37 +614,40 @@ export default function App() {
       {/* Header */}
       <div
   style={{
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "auto 1fr auto",
     alignItems: "center",
     padding: "12px",
     borderBottom: "1px solid #ddd",
-    position: "relative",
+    gap: 8,
   }}
 >
-  {/* Logo */}
+  {/* Left: Logo */}
   <img
-    src={logo} // or your imported logo
+    src={logo}
     alt="SDB Bank"
     style={{
-      height: 28,
+      height: 26,
       width: "auto",
     }}
   />
 
-  {/* Title (perfectly centered) */}
+  {/* Center: Title */}
   <div
     style={{
-      position: "absolute",
-      left: 0,
-      right: 0,
       textAlign: "center",
       fontWeight: 600,
       fontSize: "16px",
-      pointerEvents: "none", // prevents blocking logo clicks
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     }}
   >
     SDB AI Companion
   </div>
+
+  {/* Right spacer (keeps title centered) */}
+  <div style={{ width: 26 }} />
 </div>
 
 
