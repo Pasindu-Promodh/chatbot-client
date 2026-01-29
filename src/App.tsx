@@ -1,3 +1,5 @@
+//============================ Name Generator Version ============================//
+
 // import { useState, useRef, useEffect } from "react";
 
 // type Role = "user" | "assistant";
@@ -343,19 +345,7 @@
 // export default App;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================ Customer Support Chat Version ============================//
 
 import { useState, useRef, useEffect } from "react";
 
@@ -378,6 +368,22 @@ export default function App() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+  const handleResize = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", handleResize);
+  }
+
+  return () => {
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener("resize", handleResize);
+    }
+  };
+}, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -408,7 +414,7 @@ export default function App() {
             message: userMessage.content,
             history: messages,
           }),
-        }
+        },
       );
 
       const reader = response.body?.getReader();
@@ -468,325 +474,306 @@ export default function App() {
     }
   };
 
-  const renderContent = (content: string) => {
-    const lines = content.split("\n");
-    return lines.map((line, idx) => {
-      const parts = [];
-      let lastIndex = 0;
-      const regex = /\*\*(.*?)\*\*/g;
-      let match;
+  // const renderContent = (content: string) => {
+  //   const lines = content.split("\n");
+  //   return lines.map((line, idx) => {
+  //     const parts = [];
+  //     let lastIndex = 0;
+  //     const regex = /\*\*(.*?)\*\*/g;
+  //     let match;
 
-      while ((match = regex.exec(line)) !== null) {
-        if (match.index > lastIndex) {
-          parts.push(line.substring(lastIndex, match.index));
-        }
-        parts.push(<strong key={`${idx}-${match.index}`}>{match[1]}</strong>);
-        lastIndex = match.index + match[0].length;
-      }
-
-      if (lastIndex < line.length) {
-        parts.push(line.substring(lastIndex));
-      }
-
-      return (
-        <span key={idx}>
-          {parts.length > 0 ? parts : line}
-          {idx < lines.length - 1 && <br />}
-        </span>
-      );
-    });
-  };
-
-  // return (
-  //   <div style={{ maxWidth: 680, margin: "40px auto", fontFamily: "Arial", }}>
-  //     <h2 style={{ textAlign: "center" }}>SDB Customer Support Chat (Demo)</h2>
-
-  //     <div
-  //       style={{
-  //         border: "1px solid #ccc",
-  //         borderRadius: 8,
-  //         padding: 12,
-  //         minHeight: 420,
-  //         maxHeight: 520,
-  //         overflowY: "auto",
-  //         background: "#f9f9f9",
-  //       }}
-  //     >
-  //       {messages.map((m, i) => (
-  //         <div
-  //           key={i}
-  //           style={{
-  //             marginBottom: 10,
-  //             display: "flex",
-  //             justifyContent: m.role === "user" ? "flex-end" : "flex-start",
-  //           }}
-  //         >
-  //           <div
-  //             style={{
-  //               background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
-  //               color: m.role === "user" ? "white" : "black",
-  //               padding: "8px 12px",
-  //               borderRadius: 12,
-  //               maxWidth: "80%",
-  //               whiteSpace: "pre-wrap",
-  //             }}
-  //           >
-  //             {renderContent(m.content)}
-  //             {m.streaming && <span className="cursor">|</span>}
-  //           </div>
-  //         </div>
-  //       ))}
-  //       <div ref={bottomRef} />
-  //     </div>
-
-  //     <input
-  //       value={input}
-  //       disabled={loading}
-  //       onChange={(e) => setInput(e.target.value)}
-  //       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-  //       placeholder="Ask about accounts, cards, loans, or digital banking…"
-  //       style={{
-  //         width: "100%",
-  //         padding: 10,
-  //         marginTop: 10,
-  //         borderRadius: 8,
-  //         border: "1px solid #ccc",
-  //       }}
-  //     />
-
-  //     <style>{`
-  //       .cursor {
-  //         display: inline-block;
-  //         margin-left: 2px;
-  //         animation: blink 1s steps(2, start) infinite;
+  //     while ((match = regex.exec(line)) !== null) {
+  //       if (match.index > lastIndex) {
+  //         parts.push(line.substring(lastIndex, match.index));
   //       }
-  //       @keyframes blink {
-  //         to { visibility: hidden; }
-  //       }
-  //     `}</style>
-  //   </div>
-  // );
+  //       parts.push(<strong key={`${idx}-${match.index}`}>{match[1]}</strong>);
+  //       lastIndex = match.index + match[0].length;
+  //     }
 
-// return (
-//   <div
-//     style={{
-//       maxWidth: 680,
-//       margin: "0 auto",
-//       padding: "12px",
-//       fontFamily: "Arial",
-//       height: "100vh",
-//       display: "flex",
-//       flexDirection: "column",
-//     }}
-//   >
-//     <h2
-//       style={{
-//         textAlign: "center",
-//         margin: "8px 0 12px",
-//         fontSize: "clamp(16px, 4vw, 22px)",
-//       }}
-//     >
-//       SDB Customer Support Chat
-//     </h2>
+  //     if (lastIndex < line.length) {
+  //       parts.push(line.substring(lastIndex));
+  //     }
 
-//     <div
-//       style={{
-//         flex: 1,
-//         border: "1px solid #ccc",
-//         borderRadius: 10,
-//         padding: 12,
-//         overflowY: "auto",
-//         background: "#f9f9f9",
-//       }}
-//     >
-//       {messages.map((m, i) => (
-//         <div
-//           key={i}
+  //     return (
+  //       <span key={idx}>
+  //         {parts.length > 0 ? parts : line}
+  //         {idx < lines.length - 1 && <br />}
+  //       </span>
+  //     );
+  //   });
+  // };
+
+//   const renderContent = (content: string) => {
+//   const lines = content.split("\n");
+
+//   const urlRegex =
+//     /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi;
+
+//   return lines.map((line, idx) => {
+//     const parts: React.ReactNode[] = [];
+//     let lastIndex = 0;
+//     let match;
+
+//     while ((match = urlRegex.exec(line)) !== null) {
+//       if (match.index > lastIndex) {
+//         parts.push(line.slice(lastIndex, match.index));
+//       }
+
+//       const url = match[0];
+//       const href = url.startsWith("http")
+//         ? url
+//         : url.includes("@")
+//         ? `mailto:${url}`
+//         : `https://${url}`;
+
+//       parts.push(
+//         <a
+//           key={`${idx}-${match.index}`}
+//           href={href}
+//           target="_blank"
+//           rel="noopener noreferrer"
 //           style={{
-//             marginBottom: 10,
-//             display: "flex",
-//             justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+//             color: "#1565c0",
+//             textDecoration: "underline",
+//             wordBreak: "break-word",
 //           }}
 //         >
-//           <div
-//             style={{
-//               background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
-//               color: m.role === "user" ? "white" : "black",
-//               padding: "10px 14px",
-//               borderRadius: 14,
-//               maxWidth: "85%",
-//               fontSize: "14px",
-//               lineHeight: 1.4,
-//               whiteSpace: "pre-wrap",
-//             }}
-//           >
-//             {renderContent(m.content)}
-//             {m.streaming && <span className="cursor">|</span>}
-//           </div>
-//         </div>
-//       ))}
-//       <div ref={bottomRef} />
-//     </div>
+//           {url}
+//         </a>
+//       );
 
-//     <input
-//       value={input}
-//       disabled={loading}
-//       onChange={(e) => setInput(e.target.value)}
-//       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//       placeholder="Ask about accounts, cards, loans, or digital banking…"
-//       style={{
-//         width: "100%",
-//         padding: "14px",
-//         marginTop: 10,
-//         borderRadius: 12,
-//         border: "1px solid #ccc",
-//         fontSize: "14px", // IMPORTANT for mobile keyboards
-//         boxSizing: "border-box",
-//       }}
-//     />
+//       lastIndex = match.index + url.length;
+//     }
 
-//     <style>{`
-//       .cursor {
-//         display: inline-block;
-//         margin-left: 2px;
-//         animation: blink 1s steps(2, start) infinite;
-//       }
-//       @keyframes blink {
-//         to { visibility: hidden; }
-//       }
+//     if (lastIndex < line.length) {
+//       parts.push(line.slice(lastIndex));
+//     }
 
-//       /* Small screens */
-//       @media (max-width: 480px) {
-//         h2 {
-//           font-weight: 600;
-//         }
-//       }
-//     `}</style>
-//   </div>
-// );
+//     return (
+//       <span key={idx}>
+//         {parts}
+//         {idx < lines.length - 1 && <br />}
+//       </span>
+//     );
+//   });
+// };
 
 
 
-return (
-  <div
-    style={{
-      height: "100vh",
-      overflow: "hidden",
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: "Arial",
-      background: "#ffffff",
-    }}
-  >
-    {/* Header */}
-    <div
-      style={{
-        padding: "12px",
-        borderBottom: "1px solid #ddd",
-        textAlign: "center",
-        fontWeight: 600,
-        fontSize: "16px",
-      }}
-    >
-      SDB Customer Support Chat
-    </div>
+const renderContent = (content: string) => {
+  const lines = content.split("\n");
 
-    {/* Chat area */}
-    <div
-      style={{
-        flex: 1,
-        padding: 12,
-        overflowY: "auto",
-        background: "#f5f5f5",
-      }}
-    >
-      {messages.map((m, i) => (
-        <div
-          key={i}
+  const urlRegex =
+    /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi;
+
+  const boldRegex = /\*\*(.*?)\*\*/g;
+
+  const renderTextWithLinks = (text: string) => {
+    const nodes: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = urlRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        nodes.push(text.slice(lastIndex, match.index));
+      }
+
+      const url = match[0];
+      const href = url.startsWith("http")
+        ? url
+        : url.includes("@")
+        ? `mailto:${url}`
+        : `https://${url}`;
+
+      nodes.push(
+        <a
+          key={`${match.index}-${url}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
-            marginBottom: 10,
-            display: "flex",
-            justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+            color: "#1565c0",
+            textDecoration: "underline",
+            wordBreak: "break-word",
           }}
         >
-          <div
-            style={{
-              background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
-              color: m.role === "user" ? "white" : "black",
-              padding: "10px 14px",
-              borderRadius: 16,
-              maxWidth: "85%",
-              fontSize: 14,
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {renderContent(m.content)}
+          {url}
+        </a>
+      );
 
-            {/* Typing indicator */}
-            {m.streaming && (
-              <span className="typing">
-                <span></span>
-                <span></span>
-                <span></span>
-              </span>
-            )}
-          </div>
-        </div>
-      ))}
-      <div ref={bottomRef} />
-    </div>
+      lastIndex = match.index + url.length;
+    }
 
-    {/* Input bar (sticky, keyboard-safe) */}
+    if (lastIndex < text.length) {
+      nodes.push(text.slice(lastIndex));
+    }
+
+    return nodes;
+  };
+
+  return lines.map((line, lineIdx) => {
+    const parts: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = boldRegex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(
+          <span key={`text-${lineIdx}-${lastIndex}`}>
+            {renderTextWithLinks(line.slice(lastIndex, match.index))}
+          </span>
+        );
+      }
+
+      parts.push(
+        <strong key={`bold-${lineIdx}-${match.index}`}>
+          {renderTextWithLinks(match[1])}
+        </strong>
+      );
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < line.length) {
+      parts.push(
+        <span key={`text-${lineIdx}-end`}>
+          {renderTextWithLinks(line.slice(lastIndex))}
+        </span>
+      );
+    }
+
+    return (
+      <span key={lineIdx}>
+        {parts}
+        {lineIdx < lines.length - 1 && <br />}
+      </span>
+    );
+  });
+};
+
+
+
+  return (
     <div
       style={{
-        position: "sticky",
-        bottom: 0,
-        padding: "10px",
-        borderTop: "1px solid #ddd",
-        background: "#fff",
+        height: "100vh",
+        overflow: "hidden",
         display: "flex",
-        gap: 8,
+        flexDirection: "column",
+        fontFamily: "Arial",
+        background: "#ffffff",
       }}
     >
-      <input
-        value={input}
-        disabled={loading}
-        autoFocus
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-        placeholder="Type your message…"
+      {/* Header */}
+      <div
         style={{
-          flex: 1,
-          padding: "12px 14px",
-          borderRadius: 20,
-          border: "1px solid #ccc",
-          fontSize: 16, // prevents iOS zoom
-          outline: "none",
-        }}
-      />
-
-      <button
-        onClick={sendMessage}
-        disabled={loading || !input.trim()}
-        style={{
-          width: 44,
-          height: 44,
-          borderRadius: "50%",
-          border: "none",
-          background: "#1e88e5",
-          color: "white",
-          fontSize: 18,
-          cursor: "pointer",
-          opacity: loading || !input.trim() ? 0.5 : 1,
+          padding: "12px",
+          borderBottom: "1px solid #ddd",
+          textAlign: "center",
+          fontWeight: 600,
+          fontSize: "16px",
         }}
       >
-        ➤
-      </button>
-    </div>
+        SDB Customer Support Chat
+      </div>
 
-    {/* Animations */}
-    <style>{`
+      {/* Chat area */}
+      <div
+        style={{
+          flex: 1,
+          padding: 12,
+          overflowY: "auto",
+          overscrollBehavior: "contain",
+          background: "#f5f5f5",
+        }}
+      >
+        {messages.map((m, i) => (
+          <div
+            key={i}
+            style={{
+              marginBottom: 10,
+              display: "flex",
+              justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+            }}
+          >
+            <div
+              style={{
+                background: m.role === "user" ? "#1e88e5" : "#e0e0e0",
+                color: m.role === "user" ? "white" : "black",
+                padding: "10px 14px",
+                borderRadius: 16,
+                maxWidth: "85%",
+                fontSize: 14,
+                lineHeight: 1.4,
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {renderContent(m.content)}
+
+              {/* Typing indicator */}
+              {m.streaming && (
+                <span className="typing">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Input bar (sticky, keyboard-safe) */}
+      <div
+        style={{
+          position: "sticky",
+          bottom: 0,
+          padding: "10px",
+          borderTop: "1px solid #ddd",
+          background: "#fff",
+          display: "flex",
+          gap: 8,
+        }}
+      >
+        <input
+          value={input}
+          disabled={loading}
+          autoFocus
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          placeholder="Type your message…"
+          style={{
+            flex: 1,
+            padding: "12px 14px",
+            borderRadius: 20,
+            border: "1px solid #ccc",
+            fontSize: 16, // prevents iOS zoom
+            outline: "none",
+          }}
+        />
+
+        <button
+          onClick={sendMessage}
+          disabled={loading || !input.trim()}
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: "50%",
+            border: "none",
+            background: "#1e88e5",
+            color: "white",
+            fontSize: 18,
+            cursor: "pointer",
+            opacity: loading || !input.trim() ? 0.5 : 1,
+          }}
+        >
+          ➤
+        </button>
+      </div>
+
+      {/* Animations */}
+      <style>{`
       .typing {
         display: inline-flex;
         gap: 4px;
@@ -810,7 +797,6 @@ return (
         40% { transform: scale(1); }
       }
     `}</style>
-  </div>
-);
-
+    </div>
+  );
 }
